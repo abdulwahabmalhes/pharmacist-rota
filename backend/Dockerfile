@@ -27,8 +27,8 @@ WORKDIR /var/www/html
 # Copy existing application directory
 COPY . .
 
-# Install dependencies
-RUN composer install --no-dev --optimize-autoloader
+# Install dependencies - remove lock file to avoid version conflicts
+RUN rm -f composer.lock && composer update --no-dev --optimize-autoloader
 
 # Create SQLite database
 RUN mkdir -p database && touch database/database.sqlite
