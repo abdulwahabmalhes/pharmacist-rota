@@ -33,10 +33,11 @@ RUN rm -f composer.lock && composer update --no-dev --optimize-autoloader
 # Create SQLite database
 RUN mkdir -p database && touch database/database.sqlite
 
-# Set permissions
-RUN chown -R www-data:www-data /var/www/html \
-    && chmod -R 755 /var/www/html/storage \
-    && chmod -R 755 /var/www/html/bootstrap/cache
+# Create required directories and set permissions
+RUN mkdir -p storage/framework/sessions storage/framework/views storage/framework/cache storage/logs bootstrap/cache \
+    && chown -R www-data:www-data /var/www/html \
+    && chmod -R 775 /var/www/html/storage \
+    && chmod -R 775 /var/www/html/bootstrap/cache
 
 # Configure Apache
 RUN a2enmod rewrite
